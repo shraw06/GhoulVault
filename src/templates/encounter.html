@@ -1,0 +1,80 @@
+{% extends "base.html" %} {% block title %}Encounter Details{% endblock %} {%
+block head %}
+<style>
+  ul {
+    padding: 0.25rem;
+  }
+  li {
+    margin-top: 0.5rem;
+  }
+  .status {
+    color: var(--error);
+    font-weight: 600;
+  }
+</style>
+{% endblock %} {% block body %}
+<h1 class="dashboard">
+  Encounter Details
+  <a
+    style="display: block; width: auto"
+    href="/report/encounter"
+    class="button"
+  >
+    Back
+  </a>
+</h1>
+
+<h2 class="dashboard">Incident Information</h2>
+
+<ul style="list-style-type: none">
+  <li>
+    <strong>Senior Investigator</strong>:
+    <a href="{{ url_for('investigator', id=encounter.Senior_id) }}"
+      >{{ encounter.senior_name }}</a
+    >
+  </li>
+  <li>
+    <strong>Junior Investigator</strong>:
+    <a href="{{ url_for('investigator', id=encounter.Junior_id) }}"
+      >{{ encounter.junior_name }}</a
+    >
+  </li>
+  <li>
+    <strong>Ghoul</strong>:
+    <a href="{{ url_for('ghoul', id=encounter.Ghoul_id) }}"
+      >{{ encounter.ghoul_name }}</a
+    >
+  </li>
+  <li><strong>Time</strong>: {{ encounter.time }}</li>
+</ul>
+
+<h2 class="dashboard">Equipment</h2>
+
+<ul style="list-style-type: none">
+  <li><strong>Senior Quinque</strong>: {{ encounter.senior_quinque }}</li>
+  <li><strong>Junior Quinque</strong>: {{ encounter.junior_quinque }}</li>
+</ul>
+
+<h2 class="dashboard">Outcome</h2>
+
+<ul style="list-style-type: none">
+  <li>
+    <strong>Senior Status</strong>: {% if encounter.death_senior %}<span
+      class="status"
+      >Deceased†</span
+    >{% else %}Survived{% endif %}
+  </li>
+  <li>
+    <strong>Junior Status</strong>: {% if encounter.death_junior %}<span
+      class="status"
+      >Deceased†</span
+    >{% else %}Survived{% endif %}
+  </li>
+  <li>
+    <strong>Ghoul Status</strong>: {% if encounter.death_ghoul %}<span
+      class="status"
+      >Deceased†</span
+    >{% else %}Survived{% endif %}
+  </li>
+</ul>
+{% endblock %}

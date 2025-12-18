@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}Murders{% endblock %}
+{% block body %}
+<h1 class="dashboard">
+  Murders
+  <a style="display: block; width: auto" href="/report/murder/new" class="button">
+    Report Murder
+  </a>
+</h1>
+
+
+<table id="murdersTable">
+  <thead>
+    <tr>
+      <th>Murderer</th>
+      <th>Victim</th>
+      <th>Ward</th>
+      <th>Time</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for murder in murders %}
+    <tr>
+      <td>{{ murder.murderer_name }}</td>
+      <td>{{ murder.victim_name }}</td>
+      <td>{{ murder.ward_number }} ({{ murder.ward_name }})</td>
+      <td>{{ murder.time }}</td>
+      <td><a href="{{ url_for('murder_detail', murderer_id=murder.Murderer, victim_id=murder.Victim) }}">View</a></td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

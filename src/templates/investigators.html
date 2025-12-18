@@ -1,0 +1,39 @@
+{% extends "base.html" %} {% block title %}Investigators{% endblock %} {% block
+body %}
+<h1 class="dashboard">Investigators</h1>
+
+<table id="investigatorsTable">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Gender</th>
+      <th>RC Level</th>
+      <th>Rank</th>
+      <th>Grade</th>
+      <th>Age</th>
+      <th>City</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for investigator in investigators %}
+    <tr>
+      <td>{{ investigator.id }}</td>
+      <td>
+        {{ investigator.name }} {% if investigator.deceased == 1 %}†{% endif %}
+      </td>
+      <td>{{ investigator.gender }}</td>
+      <td>{{ investigator.rc_level }}</td>
+      <td>{{ investigator.rank|pretty_rank }}</td>
+      <td>{% if investigator.is_senior %}Senior{% else %}Junior{% endif %}</td>
+      <td>{{ investigator.age }}</td>
+      <td>{{ investigator.city }}</td>
+      <td>
+        <a href="{{ url_for('investigator', id=investigator.id) }}">View</a>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

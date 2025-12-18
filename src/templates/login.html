@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+    <link rel="stylesheet" href="/static/style.css" />
+    <style>
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+      }
+      .login-container {
+        background-color: var(--bg-col-lighter);
+        padding: 2.5rem;
+        border-radius: 0.75rem;
+        text-align: center;
+      }
+      h1 {
+        color: var(--primary);
+        margin-bottom: 20px;
+        font-size: 2rem;
+        font-weight: 600;
+      }
+      input[type="password"] {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 20px;
+        border: 1px solid var(--primary);
+        border-radius: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="login-container">
+      <h1>Tokyo Ghoul Dashboard</h1>
+      <form action="/login" method="post">
+        <input
+          type="password"
+          name="secret_phrase"
+          placeholder="Enter Secret Phrase"
+          required
+          autofocus
+        />
+        <button type="submit">Enter</button>
+      </form>
+      {% if error %}
+      <p class="error">{{ error }}</p>
+      {% endif %}
+    </div>
+  </body>
+</html>

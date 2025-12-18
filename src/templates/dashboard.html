@@ -1,0 +1,89 @@
+{% extends "base.html" %} {% block head %}
+<style>
+  h2 {
+    font-size: 1.5rem;
+    padding: 1rem 0;
+    font-weight: 600;
+  }
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+  }
+  .cards > a {
+    box-sizing: border-box;
+    text-decoration: none;
+    color: var(--col);
+    background-color: var(--bg-col-lighter);
+    padding: 1rem;
+    border-radius: 0.5rem;
+    border: 1px solid #2a2a2a;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .cards .inner {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .cards h3 {
+    margin-top: 0;
+    font-weight: 500;
+    font-size: 1.25rem;
+  }
+  .cards .total {
+    font-size: 3rem;
+    font-weight: 600;
+  }
+  .cards .rest {
+    font-size: 0.85rem;
+    width: 100%;
+  }
+  .actions {
+    display: flex;
+    gap: 0.5rem;
+  }
+  .actions .button {
+    font-size: 1rem;
+    padding: 0.6rem 1.25rem;
+  }
+</style>
+{% endblock %} {% block body %}
+<h1 class="dashboard">Welcome to the CCG Reporting Dashboard</h1>
+<div class="cards">
+  <a href="/ghouls">
+    <div class="inner">
+      <h3>Ghouls</h3>
+      <p class="rest">{{ ghouls.alive }} Alive, {{ ghouls.dead }} Dead.</p>
+    </div>
+    <p class="total">{{ ghouls.total }}</p>
+  </a>
+  <a href="/investigators">
+    <div class="inner">
+      <h3>Investigators</h3>
+      <p class="rest">
+        {{ investigators.alive }} Alive, {{ investigators.dead }} Dead.
+      </p>
+    </div>
+    <p class="total">{{ investigators.total }}</p>
+  </a>
+  <a href="/humans">
+    <div class="inner">
+      <h3>Humans</h3>
+      <p class="rest">{{ humans.alive }} Alive, {{ humans.dead }} Dead.</p>
+    </div>
+    <p class="total">{{ humans.total }}</p>
+  </a>
+</div>
+<h2>Actions</h2>
+<div class="actions">
+  <a class="button" href="/report/murder">Report a Murder</a>
+  <a class="button" href="/report/encounter">Report an Encounter</a>
+  <a class="button" href="/report/killing">Report a Ghoul Killing</a>
+  <a class="button" href="/report">Daily Report</a>
+</div>
+{% endblock %}

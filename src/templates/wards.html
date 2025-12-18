@@ -1,0 +1,31 @@
+{% extends "base.html" %} {% block title %} Wards {% endblock %}{% block body %}
+<h1 class="dashboard">
+  Wards
+  <a style="display: block; width: auto" href="/wards/new" class="button">
+    Add Ward
+  </a>
+</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Boundary</th>
+      <th>Number</th>
+      <th>City</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for ward in wards %}
+    <tr>
+      <td>{{ ward.id }}</td>
+      <td>{{ ward.name }}</td>
+      <td>{{ ward.boundary }}</td>
+      <td>{{ ward.number }}</td>
+      <td>{{ ward.city }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

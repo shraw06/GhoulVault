@@ -1,0 +1,31 @@
+{% extends "base.html" %} {% block title %}New Daily Report{% endblock %} {%
+block body %}
+<h1 class="dashboard">
+  New Daily Report
+  <a style="display: block; width: auto" href="/report" class="button">
+    Back
+  </a>
+</h1>
+<form method="POST" action="/report/new">
+  <div class="field">
+    <label for="date">Date</label>
+    <input type="date" id="date" name="date" required />
+  </div>
+  <div class="field">
+    <label for="text">Report Text</label>
+    <textarea
+      id="text"
+      name="text"
+      required
+      rows="10"
+      style="width: 100%; padding: 0.5rem; font-family: inherit"
+    ></textarea>
+  </div>
+  <button type="submit" class="button" style="margin-top: 1rem">
+    Submit Report
+  </button>
+  {% if error %}
+  <p class="error">{{ error }}</p>
+  {% endif %}
+</form>
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}Humans{% endblock %}
+{% block body %}
+<h1 class="dashboard">Humans</h1>
+
+<table id="humansTable">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Gender</th>
+      <th>RC Level</th>
+      <th>Birth Date</th>
+      <th>Age</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for human in humans %}
+    <tr>
+      <td>{{ human.id }}</td>
+      <td>{{ human.name }} {% if human.deceased == 1 %}†{% endif %}</td>
+      <td>{{ human.gender }}</td>
+      <td>{{ human.rc_level }}</td>
+      <td>{{ human.birth_date }}</td>
+      <td>{{ human.age }}</td>
+      <td><a href="{{ url_for('human', id=human.id) }}">View</a></td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

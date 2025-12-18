@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}CCG Report Center{% endblock %}</title>
+    <link rel="icon" href="/static/favicon.ico" />
+    <link rel="stylesheet" href="/static/style.css" />
+    <style>
+      body {
+        display: flex;
+        height: 100vh;
+        overflow: hidden;
+      }
+      .sidebar {
+        width: 250px;
+        background-color: var(--bg-col-lighter);
+        padding: 0.5rem 1rem;
+        box-sizing: border-box;
+        border-right: 1px solid #2a2a2a;
+        display: flex;
+        flex-direction: column;
+        overflow-y: auto;
+      }
+      .sidebar h1 {
+        font-size: 2rem;
+        padding: 1.5rem 1rem 1rem;
+        margin-bottom: 0.5rem;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        justify-content: start;
+        gap: 1rem;
+        border-bottom: 1px #3e3e3e solid;
+      }
+      .sidebar h3 {
+        padding: 0.75rem 1rem;
+        margin-top: 1rem;
+        font-size: 1.25rem;
+        font-weight: bold;
+      }
+      .sidebar a {
+        padding: 0.75rem 1rem;
+        background-color: var(--bg-col-lighter);
+        text-decoration: none;
+        display: block;
+        color: var(--col);
+        transition: all 200ms ease;
+        font-size: 1.1rem;
+      }
+      .sidebar a:hover {
+        background-color: var(--bg-col);
+      }
+      main {
+        flex-grow: 1;
+        padding: 40px;
+        box-sizing: border-box;
+        height: 100vh;
+        overflow-y: auto;
+      }
+    </style>
+    {% block head %}{% endblock %}
+  </head>
+  <body>
+    <div class="sidebar">
+      <h1>
+        <img src="/static/ccg.webp" alt="logo" />
+        CCG
+      </h1>
+      <div class="items">
+        <a href="/">Home</a>
+        <h3>Entities</h3>
+        <a href="/ghouls">Ghouls</a>
+        <a href="/investigators">Investigators</a>
+        <a href="/humans">Humans</a>
+        <a href="/quinque">Quinque</a>
+        <a href="/wards">Wards</a>
+        <h3>Reporting</h3>
+        <a href="/report">Daily Reports</a>
+        <a href="/report/murder">Murders</a>
+        <a href="/report/encounter">Encounters</a>
+        <a href="/report/killing">Ghoul Killings</a>
+      </div>
+      {% if is_logged_in %}
+      <a href="/logout" type="submit" class="button" style="margin-top: auto"
+        >Logout</a
+      >
+      {% endif %}
+    </div>
+    <main>{% block body %} {% endblock %}</main>
+  </body>
+</html>

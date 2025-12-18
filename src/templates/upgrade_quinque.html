@@ -1,0 +1,47 @@
+{% extends "base.html" %} {% block title %}Upgrade Quinque{% endblock %} {%
+block body %}
+<h1 class="dashboard">
+  Upgrade Quinque: {{ quinque.name }}
+  <a
+    style="display: block; width: auto"
+    href="/quinque/{{ quinque.id }}"
+    class="button"
+    >Back</a
+  >
+</h1>
+
+<form method="POST">
+  <p><strong>Current RC Type:</strong> {{ quinque.rc }}</p>
+
+  <h3>Upgrade Details</h3>
+
+  <div class="field">
+    <label for="investigator_id">Upgraded By (Investigator)</label>
+    <select id="investigator_id" name="investigator_id" required>
+      <option value="">Select Investigator...</option>
+      {% for inv in investigators %}
+      <option value="{{ inv.id }}">
+        {{ inv.name }} (Rank: {{ inv.rank|pretty_rank }})
+      </option>
+      {% endfor %}
+    </select>
+  </div>
+
+  <div class="field">
+    <label for="kagune_id">Harvest Material From (Deceased Ghoul)</label>
+    <select id="kagune_id" name="kagune_id" required>
+      <option value="">Select Deceased Ghoul...</option>
+      {% for k in kagune %}
+      <option value="{{ k.id }}">
+        {{ k.rc|capitalize }} - {{ k.ghoul_name }} (Kakuja: {{ k.kakuja_level
+        }})
+      </option>
+      {% endfor %}
+    </select>
+  </div>
+
+  <button type="submit" class="button" style="margin-top: 1rem">
+    Process Upgrade
+  </button>
+</form>
+{% endblock %}

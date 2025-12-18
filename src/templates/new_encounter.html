@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+{% block title %}Report Encounter{% endblock %}
+{% block body %}
+<h1 class="dashboard">
+  Report Encounter
+  <a style="display: block; width: auto" href="/report/encounter" class="button"> Back </a>
+</h1>
+<form method="POST" action="/report/encounter/new">
+  <div class="field">
+    <label for="senior_id">Senior Investigator</label>
+    <select id="senior_id" name="senior_id" required>
+      <option value="">Select senior investigator...</option>
+      {% for inv in senior_investigators %}
+      <option value="{{ inv.id }}">{{ inv.name }} (Rank: {{ inv.rank }})</option>
+      {% endfor %}
+    </select>
+  </div>
+  <div class="field">
+    <label for="junior_id">Junior Investigator</label>
+    <select id="junior_id" name="junior_id" required>
+      <option value="">Select junior investigator...</option>
+      {% for inv in junior_investigators %}
+      <option value="{{ inv.id }}">{{ inv.name }} (Rank: {{ inv.rank }})</option>
+      {% endfor %}
+    </select>
+  </div>
+  <div class="field">
+    <label for="ghoul_id">Ghoul</label>
+    <select id="ghoul_id" name="ghoul_id" required>
+      <option value="">Select a ghoul...</option>
+      {% for ghoul in ghouls %}
+      <option value="{{ ghoul.id }}">{{ ghoul.name }} (ID: {{ ghoul.id }})</option>
+      {% endfor %}
+    </select>
+  </div>
+  <div class="field">
+  <label for="time">Time</label>
+  <input
+    type="datetime-local"
+    id="time"
+    name="time"
+    required
+  />
+</div>
+  <div class="field">
+    <label for="senior_quinque">Senior Quinque</label>
+    <select id="senior_quinque" name="senior_quinque" required>
+      <option value="">Select quinque...</option>
+      {% for quinque in quinques %}
+      <option value="{{ quinque.id }}">{{ quinque.name }} ({{ quinque.rating }})</option>
+      {% endfor %}
+    </select>
+  </div>
+  <div class="field">
+    <label for="junior_quinque">Junior Quinque</label>
+    <select id="junior_quinque" name="junior_quinque" required>
+      <option value="">Select quinque...</option>
+      {% for quinque in quinques %}
+      <option value="{{ quinque.id }}">{{ quinque.name }} ({{ quinque.rating }})</option>
+      {% endfor %}
+    </select>
+  </div>
+  <div class="field">
+    <label>
+      <input type="checkbox" name="death_senior" value="true" />
+      Senior Investigator Deceased
+    </label>
+  </div>
+  <div class="field">
+    <label>
+      <input type="checkbox" name="death_junior" value="true" />
+      Junior Investigator Deceased
+    </label>
+  </div>
+  <div class="field">
+    <label>
+      <input type="checkbox" name="death_ghoul" value="true" />
+      Ghoul Deceased
+    </label>
+  </div>
+  <button type="submit" class="button" style="margin-top: 1rem">
+    Report Encounter
+  </button>
+  {% if error %}
+  <p class="error">{{ error }}</p>
+  {% endif %}
+</form>
+{% endblock %}

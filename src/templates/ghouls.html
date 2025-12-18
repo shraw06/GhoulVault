@@ -1,0 +1,47 @@
+{% extends "base.html" %} {% block title %} Ghouls {% endblock %}{% block body
+%}
+<h1 class="dashboard">Ghouls</h1>
+
+<div style="margin-bottom: 20px">
+  <form method="GET" action="">
+    <label for="wardFilter">Filter by Ward:</label>
+    <select name="ward" id="wardFilter" onchange="this.form.submit()">
+      <option value="">All Wards</option>
+      {% for w in wards %}
+      <option {{ 'selected' if w.id == ward else '' }} value="{{ w.id }}">{{ w.name }}</option>
+      {% endfor %}
+    </select>
+  </form>
+</div>
+
+<table id="ghoulsTable">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Gender</th>
+      <th>RC Level</th>
+      <th>RC Type</th>
+      <th>Rating</th>
+      <th>Age</th>
+      <th>Ward</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for ghoul in ghouls %}
+    <tr>
+      <td>{{ ghoul.id }}</td>
+      <td>{{ ghoul.name }} {% if ghoul.deceased == 1 %}†{% endif %}</td>
+      <td>{{ ghoul.gender }}</td>
+      <td>{{ ghoul.rc_level }}</td>
+      <td>{{ ghoul.rc_type }} {{ "(Kakuja: " + ghoul.kakuja_level|string + ")" if ghoul.kakuja_level is not none else '' }}</td>
+      <td>{{ ghoul.rating }}</td>
+      <td>{{ ghoul.age }}</td>
+      <td>{{ ghoul.ward_number }} ({{ ghoul.ward_name }})</td>
+      <td><a href="{{ url_for('ghoul', id=ghoul.id )}}">View</a></td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}Report {{ report.id }}{% endblock %}
+{% block head %}
+<style>
+  .report-content {
+    background-color: var(--bg-col-lighter);
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    margin-top: 1rem;
+    line-height: 1.6;
+  }
+  .report-date {
+    color: var(--primary);
+    font-weight: 600;
+    margin-bottom: 1rem;
+  }
+</style>
+{% endblock %}
+{% block body %}
+<h1 class="dashboard">
+  Report {{ report.id }}
+  <a style="display: block; width: auto" href="/report" class="button">
+    Back
+  </a>
+</h1>
+
+<p class="report-date">Date: {{ report.date }}</p>
+
+<div class="report-content">
+  {{ report.text }}
+</div>
+{% endblock %}

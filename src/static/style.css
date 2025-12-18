@@ -1,0 +1,275 @@
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+
+   Some modifications have been made.
+*/
+
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+  display: block;
+}
+ol,
+ul {
+  list-style: none;
+}
+blockquote,
+q {
+  quotes: none;
+}
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+  content: "";
+  content: none;
+}
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/* --- END CSS RESET --- */
+
+:root {
+  --bg-col: oklch(0.1864 0.0086 307.95);
+  --bg-col-lighter: oklch(0.2864 0.0086 307.95);
+  --col: oklch(0.9649 0.0244 327.79);
+  --error: oklch(0.5972 0.2379 28.19);
+  --primary: oklch(0.6634 0.1751 9.73);
+  --primary-hover: oklch(0.5634 0.1751 9.73);
+  --primary-text: oklch(0.3669 0.1463 28.35);
+  --secondary: oklch(0.9524 0.0045 214.33);
+  --secondary-hover: oklch(0.8324 0.0045 214.33);
+  --secondary-text: oklch(0.1543 0.0045 214.33);
+  font-size: 16px;
+}
+
+body {
+  font-family: sans-serif;
+  background-color: var(--bg-col);
+  color: var(--col);
+  font-size: 16px;
+}
+
+button,
+.button {
+  background-color: var(--primary);
+  color: var(--primary-text);
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 0.25rem;
+  box-sizing: border-box;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 600;
+  width: 100%;
+  text-align: left;
+  transition: background-color 0.3s;
+  text-decoration: none;
+}
+
+button:hover,
+.button:hover {
+  background-color: var(--primary-hover);
+  color: var(--primary-text) !important;
+  text-decoration: none !important;
+}
+
+button.secondary,
+.button.secondary {
+  background-color: var(--secondary);
+  color: var(--secondary-text);
+}
+
+button.secondary:hover,
+.button.secondary:hover {
+  background-color: var(--secondary-hover);
+  color: var(--secondary-text) !important;
+  text-decoration: none !important;
+}
+
+h1.dashboard {
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+h2.dashboard {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-top: 1.25rem;
+  margin-bottom: 0.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1.5rem;
+}
+
+th,
+td {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid var(--bg-col-lighter);
+}
+
+thead th {
+  background-color: var(--bg-col-lighter);
+  font-weight: 600;
+}
+
+tbody tr:hover {
+  background-color: var(--bg-col-lighter);
+}
+
+form > * {
+  margin-top: 0.5rem;
+  margin-bottom: 0.25rem;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  justify-items: center;
+  gap: 0.5rem;
+}
+
+label {
+  font-weight: 500;
+  font-size: 0.85rem;
+}
+
+input,
+textarea,
+select {
+  background-color: var(--bg-col-lighter);
+  color: var(--col);
+  padding: 0.35rem 0.75rem;
+  font-size: 1rem;
+  border: 1px solid var(--primary-hover);
+  border-radius: 0.25rem;
+  box-sizing: border-box;
+}
+
+.error {
+  color: #ff0000;
+  margin-top: 10px;
+}
+
+a {
+  color: var(--primary);
+  text-decoration: none;
+}
+a:hover {
+  color: var(--primary-hover);
+  text-decoration: underline;
+}
+strong {
+  font-weight: 700;
+}

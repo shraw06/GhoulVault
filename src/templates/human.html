@@ -1,0 +1,49 @@
+{% extends "base.html" %} {% block title %}Viewing Human {{ human.id }}{%
+endblock %} {% block head %}
+<style>
+  ul {
+    padding: 0.25rem;
+  }
+  li {
+    margin-top: 0.5rem;
+  }
+</style>
+{% endblock %} {% block body %}
+<h1 class="dashboard">
+  {{ human.name }} (Human {{ human.id }})
+  <a style="display: block; width: auto" href="/humans" class="button">
+    Back
+  </a>
+</h1>
+
+<h2 class="dashboard">Information</h2>
+{% if human.is_investigator %}
+<p>
+  <a href="{{ url_for('investigator', id=human.id) }}"
+    >This person is an investigator</a
+  >
+</p>
+{% endif %}
+
+<ul style="list-style-type: none">
+  <li><strong>ID</strong>: {{ human.id }}</li>
+  <li><strong>Name</strong>: {{ human.name }}</li>
+  <li><strong>Gender</strong>: {{ human.gender }}</li>
+  <li><strong>RC Level</strong>: {{ human.rc_level }}</li>
+  <li><strong>Birth Date</strong>: {{ human.birth_date }}</li>
+  <li><strong>Age</strong>: {{ human.age }}</li>
+  <li>
+    <strong>Status</strong>: {% if human.deceased == 1 %}Deceased†{% else
+    %}Alive{% endif %}
+  </li>
+  {% if killer %}
+  <li>
+    <strong>Killer</strong>:
+    <a href="{{ url_for('ghoul', id=killer.ghoul_id) }}"
+      >{{ killer.ghoul_name }}</a
+    >
+    (Rating: {{ killer.rating }})
+  </li>
+  {% endif %}
+</ul>
+{% endblock %}

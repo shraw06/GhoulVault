@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block title %}Report Murder{% endblock %}
+{% block body %}
+<h1 class="dashboard">
+  Report Murder
+  <a style="display: block; width: auto" href="/report/murder" class="button"> Back </a>
+</h1>
+<form method="POST" action="/report/murder/new">
+  <div class="field">
+    <label for="murderer_id">Murderer (Ghoul)</label>
+    <select id="murderer_id" name="murderer_id" required>
+      <option value="">Select a ghoul...</option>
+      {% for ghoul in ghouls %}
+      <option value="{{ ghoul.id }}">{{ ghoul.name }} (ID: {{ ghoul.id }})</option>
+      {% endfor %}
+    </select>
+  </div>
+  <div class="field">
+    <label for="victim_id">Victim (Human)</label>
+    <select id="victim_id" name="victim_id" required>
+      <option value="">Select a human...</option>
+      {% for human in humans %}
+      <option value="{{ human.id }}">{{ human.name }} (ID: {{ human.id }})</option>
+      {% endfor %}
+    </select>
+  </div>
+  <div class="field">
+    <label for="ward_id">Ward</label>
+    <select id="ward_id" name="ward_id" required>
+      <option value="">Select a ward...</option>
+      {% for ward in wards %}
+      <option value="{{ ward.id }}">{{ ward.name }} - Ward {{ ward.number }}</option>
+      {% endfor %}
+    </select>
+  </div>
+ <div class="field">
+  <label for="time">Time</label>
+  <input
+    type="datetime-local"
+    id="time"
+    name="time"
+    required
+  />
+</div>
+  <button type="submit" class="button" style="margin-top: 1rem">
+    Report Murder
+  </button>
+  {% if error %}
+  <p class="error">{{ error }}</p>
+  {% endif %}
+</form>
+{% endblock %}

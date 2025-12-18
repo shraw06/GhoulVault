@@ -1,0 +1,40 @@
+{% extends "base.html" %} {% block title %}Murder Details{% endblock %} {% block
+head %}
+<style>
+  ul {
+    padding: 0.25rem;
+  }
+  li {
+    margin-top: 0.5rem;
+  }
+</style>
+{% endblock %} {% block body %}
+<h1 class="dashboard">
+  Murder Details
+  <a style="display: block; width: auto" href="/report/murder" class="button">
+    Back
+  </a>
+</h1>
+
+<h2 class="dashboard">Incident Information</h2>
+
+<ul style="list-style-type: none">
+  <li>
+    <strong>Murderer</strong>:
+    <a href="{{ url_for('ghoul', id=murder.Murderer) }}">
+      {{ murder.murderer_name }}</a
+    >
+  </li>
+  <li>
+    <strong>Victim</strong>:
+    <a href="{{ url_for('human', id=murder.Victim) }}">
+      {{ murder.victim_name }}</a
+    >
+  </li>
+  <li>
+    <strong>Ward</strong>: {{ murder.ward_number }} ({{ murder.ward_name }}, {{
+    murder.ward_city }})
+  </li>
+  <li><strong>Time</strong>: {{ murder.time }}</li>
+</ul>
+{% endblock %}

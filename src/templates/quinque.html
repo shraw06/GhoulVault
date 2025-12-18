@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block title %}Viewing Quinque {{ quinque.id }}{% endblock %}
+{% block head %}
+<style>
+  ul {
+    padding: 0.25rem;
+  }
+  li {
+    margin-top: 0.5rem;
+  }
+</style>
+{% endblock %}
+{% block body %}
+<h1 class="dashboard">
+  {{ quinque.name }} (Quinque {{ quinque.id }})
+  <a style="display: block; width: auto" href="/quinque" class="button">
+    Back
+  </a>
+</h1>
+
+<div class="button-group">
+  <a href="/quinque/{{ quinque.id }}/transfer" class="button">Change Owner</a>
+  <a href="/quinque/{{ quinque.id }}/upgrade" class="button">Upgrade Quinque</a>
+</div>
+<h2 class="dashboard">Information</h2>
+
+<ul style="list-style-type: none">
+  <li><strong>ID</strong>: {{ quinque.id }}</li>
+  <li><strong>Name</strong>: {{ quinque.name }}</li>
+  <li><strong>Rating</strong>: {{ quinque.rating }}</li>
+  <li><strong>Owner</strong>: {{ quinque.investigator_name }} (Rank: {{ quinque.rank }})</li>
+  <li><strong>RC Type</strong>: {{ quinque.rc }} {{ "(Kakuja: " + quinque.kakuja_level|string + ")" if quinque.kakuja_level is not none else '' }}</li>
+</ul>
+
+{% if upgrades %}
+<h2 class="dashboard">Upgrades</h2>
+<table>
+  <thead>
+    <tr>
+      <th>Investigator</th>
+      <th>RC Type</th>
+      <th>Kakuja Level</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for upgrade in upgrades %}
+    <tr>
+      <td>{{ upgrade.investigator_name }}</td>
+      <td>{{ upgrade.rc }}</td>
+      <td>{{ upgrade.kakuja_level }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,65 @@
+{% extends "base.html" %} {% block title %}Report Ghoul Killing{% endblock %} {%
+block body %}
+<h1 class="dashboard">
+  Report Ghoul Killing
+  <a
+    style="display: block; width: auto"
+    href="/report/killing/new"
+    class="button"
+  >
+    Back
+  </a>
+</h1>
+<form method="POST" action="/report/killing/new">
+  <div class="field">
+    <label for="investigator_id">Investigator</label>
+    <select id="investigator_id" name="investigator_id" required>
+      <option value="">Select investigator...</option>
+      {% for investigator in investigators %}
+      <option value="{{ investigator.id }}">
+        {{ investigator.name }} (Rank: {{ investigator.rank }})
+      </option>
+      {% endfor %}
+    </select>
+  </div>
+  <div class="field">
+    <label for="ghoul_id">Ghoul</label>
+    <select id="ghoul_id" name="ghoul_id" required>
+      <option value="">Select a ghoul...</option>
+      {% for ghoul in ghouls %}
+      <option value="{{ ghoul.id }}">
+        {{ ghoul.name }} (ID: {{ ghoul.id }})
+      </option>
+      {% endfor %}
+    </select>
+  </div>
+  <div class="field">
+    <label for="quinque_id">Quinque Used</label>
+    <select id="quinque_id" name="quinque_id" required>
+      <option value="">Select quinque...</option>
+      {% for quinque in quinques %}
+      <option value="{{ quinque.id }}">
+        {{ quinque.name }} ({{ quinque.rating }})
+      </option>
+      {% endfor %}
+    </select>
+  </div>
+  <div class="field">
+    <label for="ward_id">Ward</label>
+    <select id="ward_id" name="ward_id" required>
+      <option value="">Select a ward...</option>
+      {% for ward in wards %}
+      <option value="{{ ward.id }}">
+        {{ ward.name }} - Ward {{ ward.number }}
+      </option>
+      {% endfor %}
+    </select>
+  </div>
+  <button type="submit" class="button" style="margin-top: 1rem">
+    Report Killing
+  </button>
+  {% if error %}
+  <p class="error">{{ error }}</p>
+  {% endif %}
+</form>
+{% endblock %}

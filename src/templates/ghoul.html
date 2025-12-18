@@ -1,0 +1,253 @@
+{% extends "base.html" %} {% block title %}Viewing Ghoul {{ ghoul.id }}{%
+endblock %} {% block head %}
+<style>
+  ul {
+    padding: 0.25rem;
+  }
+  li {
+    margin-top: 0.5rem;
+  }
+</style>
+{%endblock %} {% block body %}
+<h1 class="dashboard">
+  {{ ghoul.name }} (Ghoul {{ ghoul.id }})
+  <a style="display: block; width: auto" href="/ghouls" class="button">
+    Back
+  </a>
+</h1>
+
+<h2 class="dashboard">
+  Information
+  <button
+    class="secondary"
+    style="width: auto"
+    onclick="document.getElementById('update-form').style.display = 'block'; this.style.display = 'none'"
+  >
+    Update
+  </button>
+</h2>
+
+<form
+  id="update-form"
+  action="{{ url_for('update_ghoul', id=ghoul.id) }}"
+  method="post"
+  style="display: none"
+>
+  <div>
+  <label for="name">Name</label>
+  <input type="text" name="name" id="name" value="{{ ghoul.name }}" required />
+  </div>
+  <div>
+  <label for="gender">Gender</label>
+  <select name="gender" id="gender" required>
+    <option value="m" {{ 'selected' if ghoul.gender == 'm' else '' }}>Male</option>
+    <option value="f" {{ 'selected' if ghoul.gender == 'f' else '' }}>Female</option>
+    <option value="o" {{ 'selected' if ghoul.gender == 'o' else '' }}>Other</option>
+  </select>
+  </div>
+  <div>
+  <label for="birth_date">Birth Date</label>
+  <input
+    type="date"
+    name="birth_date"
+    id="birth_date"
+    value="{{ ghoul.birth_date }}"
+    required
+  />
+  </div>
+  <div>
+  <label for="rc_type">RC Type</label>
+  <select name="rc_type" id="rc_type" required>
+    <option value="ukaku" {{ 'selected' if ghoul.rc_type == 'ukaku' else '' }}>Ukaku</option>
+    <option value="kokaku" {{ 'selected' if ghoul.rc_type == 'kokaku' else '' }}>Kokaku</option>
+    <option value="rinkaku" {{ 'selected' if ghoul.rc_type == 'rinkaku' else '' }}>Rinkaku</option>
+    <option value="bikaku" {{ 'selected' if ghoul.rc_type == 'bikaku' else '' }}>Bikaku</option>
+  </select>
+  </div>
+  <div>
+  <label for="ward">Ward</label>
+  <select name="ward" id="ward" required>
+    {% for ward in wards %}
+    <option value="{{ ward.id }}" {{ 'selected' if ghoul.ward_id == ward.id else '' }}>
+      {{ ward.number }} ({{ ward.name }}, {{ ward.city }})
+    </option>
+    {% endfor %}
+  </select>
+  </div>
+  <div style="display: flex; gap: 0.5rem; align-items: center;">
+  <button type="submit">Update Ghoul</button>
+  <button type="button" class="secondary" onclick="window.location.reload()">Cancel</button>
+  </div>
+</form>
+
+<ul style="list-style-type: none">
+  <li><strong>ID</strong>: {{ ghoul.id }}</li>
+  <li><strong>Name</strong>: {{ ghoul.name }}</li>
+  <li><strong>Gender</strong>: {{ ghoul.gender }}</li>
+  <li><strong>RC Level</strong>: {{ ghoul.rc_level }}</li>
+  <li><strong>Birth Date</strong>: {{ ghoul.birth_date }}</li>
+  <li><strong>Age</strong>: {{ ghoul.age }}</li>
+  <li><strong>Status</strong>: {% if ghoul.deceased == 1 %}Deceased†{% else %}Alive{% endif %}</li>
+  {% if killer %}
+  <li><strong>Killer</strong>:
+    <a href="{{ url_for('investigator', id=killer.investigator_id) }}">
+  {{ killer.rank|pretty_rank }} Investigator {{ killer.name }}
+  </a>
+  using
+    <a href="{{ url_for('quinque', id=killer.quinque_id) }}">
+  {{ killer.quinque_name }} ({{ killer.quinque_rating }})
+  </a>
+  </li>
+  {% endif %}
+  <li>
+    <strong>RC Type</strong>: {{ ghoul.rc_type }} {{ "(Kakuja: " +
+    ghoul.kakuja_level|string + ")" if ghoul.kakuja_level is not none else '' }}
+  </li>
+  <li>
+    <strong>Ward</strong>: {{ ghoul.ward_number }} ({{ ghoul.ward_name }}, {{
+    ghoul.ward_city }})
+  </li>
+</ul>
+
+{% if chimera %}
+<h2 class="dashboard">Chimera</h2>
+<ul style="list-style-type: none">
+  <li>
+    <strong>Parent 1</strong>: {{ chimera.parent1_name }} {% if
+    ghoul.parent1_deceased == 1 %}†{% endif %} ({{ chimera.parent1_gender }})
+    <a href="{{ url_for('ghoul', id=chimera.parent1_id )}}">View</a>
+  </li>
+  <li>
+    <strong>Parent 2</strong>: {{ chimera.parent2_name }} {% if
+    ghoul.parent2_deceased == 2 %}†{% endif %} ({{ chimera.parent2_gender }})
+    <a href="{{ url_for('ghoul', id=chimera.parent2_id )}}">View</a>
+  </li>
+  <li>
+    <strong>Kagune 1</strong>: {{ chimera.kagune1_rc }} {{ "(Kakuja: " +
+    chimera.kagune1_kakuja_level|string + ")" if ghoul.kakuja_level is not none
+    else '' }}
+  </li>
+  <li>
+    <strong>Kagune 2</strong>: {{ chimera.kagune2_rc }} {{ "(Kakuja: " +
+    chimera.kagune2_kakuja_level|string + ")" if ghoul.kakuja_level is not none
+    else '' }}
+  </li>
+</ul>
+{% endif %}
+
+{% if one_eyed_ghoul %}
+<h2 class="dashboard">One-Eyed Ghoul</h2>
+<ul style="list-style-type: none">
+  {% if one_eyed_ghoul.HumanParent_id and one_eyed_ghoul.GhoulParent_id %}
+  <li>
+    <strong>Human Parent</strong>: {{ one_eyed_ghoul.human_parent_name }} {% if
+    one_eyed_ghoul.human_parent_deceased == 1 %}†{% endif %} ({{ one_eyed_ghoul.human_parent_gender }})
+    <a href="{{ url_for('human', id=one_eyed_ghoul.HumanParent_id) }}">View</a>
+  </li>
+  <li>
+    <strong>Ghoul Parent</strong>: {{ one_eyed_ghoul.ghoul_parent_name }} {% if
+    one_eyed_ghoul.ghoul_parent_deceased == 1 %}†{% endif %} ({{ one_eyed_ghoul.ghoul_parent_gender }})
+    <a href="{{ url_for('ghoul', id=one_eyed_ghoul.GhoulParent_id) }}">View</a>
+  </li>
+  {% elif one_eyed_ghoul.TransplantDonor_id %}
+  <li>
+    <strong>Transplant Donor</strong>: {{ one_eyed_ghoul.transplant_donor_name }} {% if
+    one_eyed_ghoul.transplant_donor_deceased == 1 %}†{% endif %} ({{ one_eyed_ghoul.transplant_donor_gender }})
+    <a href="{{ url_for('ghoul', id=one_eyed_ghoul.TransplantDonor_id) }}">View</a>
+  </li>
+  {% endif %}
+  <li>
+    <strong>Human Part</strong>: {{ one_eyed_ghoul.human_part_name }} {% if
+    one_eyed_ghoul.human_part_deceased == 1 %}†{% endif %} ({{ one_eyed_ghoul.human_part_gender }})
+    <a href="{{ url_for('human', id=one_eyed_ghoul.HumanPart_id) }}">View</a>
+  </li>
+</ul>
+{% endif %}
+
+<h2 class="dashboard">Encounters</h2>
+{% if encounters|length() == 0 %}
+<p>This ghoul hasn't encountered any investigators</p>
+{% else %}
+<ul>
+  <table>
+    <thead>
+      <tr>
+        <th>Senior Investigator</th>
+        <th>Senior's Quinque</th>
+        <th>Junior Investigator</th>
+        <th>Senior's Quinque</th>
+        <th>Time</th>
+        <th>Was Ghoul Killed</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for enc in encounters %}
+      <tr>
+        <td>
+          <a href="{{ url_for('investigator', id=enc.Senior_id )}}"
+            >{{ enc.senior_name }} ({{ enc.senior_rank|pretty_rank }}) {{ '†' if
+            enc.death_senior else '' }}</a
+          >
+        </td>
+        <td>
+          <a href="{{ url_for('quinque', id=enc.SeniorQuinque )}}"
+            >{{ enc.senior_quinque_name }} ({{ enc.senior_quinque_rating }})</a
+          >
+        </td>
+        <td>
+          <a href="{{ url_for('investigator', id=enc.Junior_id )}}"
+            >{{ enc.junior_name }} ({{ enc.junior_rank|pretty_rank }}) {{ '†' if
+            enc.death_junior else '' }}</a
+          >
+        </td>
+        <td>
+          <a href="{{ url_for('quinque', id=enc.JuniorQuinque )}}"
+            >{{ enc.junior_quinque_name }} ({{ enc.junior_quinque_rating }})</a
+          >
+        </td>
+        <td>{{ enc.time }}</td>
+        <td>{{ 'Yes' if enc.death_ghoul == 1 else 'No' }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</ul>
+{% endif %}
+<h2 class="dashboard">Murders</h2>
+{% if murders|length() == 0 %}
+<p>This ghoul has committed no reported murders</p>
+{% else %}
+<ul>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Age</th>
+        <th>Gender</th>
+        <th>Is Investigator</th>
+        <th>Ward</th>
+        <th>Time</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for murder in murders %}
+      <tr>
+        <td>{{ murder.name }}</td>
+        <td>{{ murder.age }}</td>
+        <td>{{ murder.gender }}</td>
+        <td>{{ 'Yes' if murder.is_investigator == 1 else 'No' }}</td>
+        <td>
+          {{ murder.ward_number }} ({{ murder.ward_name }}, {{ murder.ward_city
+          }})
+        </td>
+        <td>{{ murder.time }}</td>
+        <td>
+          <a href="{{ url_for('human', id=murder.Victim )}}">View Human</a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</ul>
+{% endif %} {% endblock %}

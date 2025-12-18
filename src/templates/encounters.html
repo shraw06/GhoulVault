@@ -1,0 +1,49 @@
+{% extends "base.html" %} {% block title %}Encounters{% endblock %} {% block
+body %}
+<h1 class="dashboard">
+  Encounters
+  <a
+    style="display: block; width: auto"
+    href="/report/encounter/new"
+    class="button"
+  >
+    Report Encounter
+  </a>
+</h1>
+
+<table id="encountersTable">
+  <thead>
+    <tr>
+      <th>Senior</th>
+      <th>Junior</th>
+      <th>Ghoul</th>
+      <th>Time</th>
+      <th>Outcome</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for encounter in encounters %}
+    <tr>
+      <td>{{ encounter.senior_name }}</td>
+      <td>{{ encounter.junior_name }}</td>
+      <td>{{ encounter.ghoul_name }}</td>
+      <td>{{ encounter.time }}</td>
+      <td>
+        {% if encounter.death_senior %}Senior †{% endif %} {% if
+        encounter.death_junior %}Junior †{% endif %} {% if encounter.death_ghoul
+        %}Ghoul †{% endif %} {% if not encounter.death_senior and not
+        encounter.death_junior and not encounter.death_ghoul %}No Deaths{% endif
+        %}
+      </td>
+      <td>
+        <a
+          href="{{ url_for('encounter_detail', senior_id=encounter.Senior_id, junior_id=encounter.Junior_id, ghoul_id=encounter.Ghoul_id, time=encounter.time) }}"
+          >View</a
+        >
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

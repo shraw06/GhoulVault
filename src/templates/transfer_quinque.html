@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}Transfer Quinque{% endblock %}
+{% block body %}
+<h1 class="dashboard">
+  Transfer Ownership: {{ quinque.name }}
+  <a style="display: block; width: auto" href="/quinque/{{ quinque.id }}" class="button">Back</a>
+</h1>
+
+<form method="POST">
+  <div class="field">
+    <label for="new_owner_id">Select New Owner (Investigator)</label>
+    <select id="new_owner_id" name="new_owner_id" required>
+      <option value="">Select an Investigator...</option>
+      {% for inv in investigators %}
+      <option value="{{ inv.id }}" {% if inv.id == quinque.owner_id %}selected{% endif %}>
+        {{ inv.name }} (Rank: {{ inv.rank|pretty_rank }})
+      </option>
+      {% endfor %}
+    </select>
+  </div>
+
+  <button type="submit" class="button" style="margin-top: 1rem;">
+    Transfer Ownership
+  </button>
+</form>
+{% endblock %}

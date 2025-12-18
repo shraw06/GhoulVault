@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}Ghoul Killings{% endblock %}
+{% block body %}
+<h1 class="dashboard">
+  Ghoul Killings
+  <a style="display: block; width: auto" href="/report/killing/new" class="button">
+    Report Killing
+  </a>
+</h1>
+
+
+<table id="killingsTable">
+  <thead>
+    <tr>
+      <th>Investigator</th>
+      <th>Ghoul</th>
+      <th>Quinque</th>
+      <th>Ward</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for killing in killings %}
+    <tr>
+      <td>{{ killing.investigator_name }}</td>
+      <td>{{ killing.ghoul_name }}</td>
+      <td>{{ killing.quinque_name }}</td>
+      <td>{{ killing.ward_number }} ({{ killing.ward_name }})</td>
+      <td><a href="{{ url_for('killing_detail', ghoul_id=killing.ghoul_id) }}">View</a></td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

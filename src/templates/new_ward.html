@@ -1,0 +1,32 @@
+{% extends "base.html" %} {% block header %}
+<style></style>
+{% endblock %} {% block body %}
+<h1 class="dashboard">
+  Create Ward
+  <a style="display: block; width: auto" href="/wards" class="button"> Back </a>
+</h1>
+<form method="POST" action="/wards/new">
+  <div class="field">
+    <label for="name">Name</label>
+    <input type="text" id="name" name="name" required />
+  </div>
+  <div class="field">
+    <label for="boundary">Boundary</label>
+    <input type="text" id="boundary" name="boundary" required />
+  </div>
+  <div class="field">
+    <label for="number">Number</label>
+    <input type="number" id="number" name="number" required />
+  </div>
+  <div class="field">
+    <label for="city">City</label>
+    <input type="text" id="city" name="city" required />
+  </div>
+  <button type="submit" class="button" style="margin-top: 1rem">
+    Create Ward
+  </button>
+  {% if error %}
+  <p class="error">{{ error }}</p>
+  {% endif %}
+</form>
+{% endblock %}

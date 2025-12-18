@@ -1,0 +1,141 @@
+{% extends "base.html" %}
+{% block title %}Viewing Investigator {{ investigator.id }}{% endblock %}
+{% block head %}
+<style>
+  ul {
+    padding: 0.25rem;
+  }
+  li {
+    margin-top: 0.5rem;
+  }
+</style>
+{% endblock %}
+{% block body %}
+<h1 class="dashboard">
+  {{ investigator.name }} (Investigator {{ investigator.id }})
+  <a style="display: block; width: auto" href="/investigators" class="button">
+    Back
+  </a>
+</h1>
+
+<h2 class="dashboard">Information</h2>
+
+<ul style="list-style-type: none">
+  <li><strong>ID</strong>: {{ investigator.id }}</li>
+  <li><strong>Name</strong>: {{ investigator.name }}</li>
+  <li><strong>Gender</strong>: {{ investigator.gender }}</li>
+  <li><strong>RC Level</strong>: {{ investigator.rc_level }}</li>
+  <li><strong>Birth Date</strong>: {{ investigator.birth_date }}</li>
+  <li><strong>Age</strong>: {{ investigator.age }}</li>
+  <li><strong>Rank</strong>: {{ investigator.rank | pretty_rank }}</li>
+  <li><strong>Grade</strong>: {% if investigator.is_senior %}Senior{% else %}Junior{% endif %}</li>
+  <li><strong>City</strong>: {{ investigator.city }}</li>
+  <li><strong>Status</strong>: {% if investigator.deceased == 1 %}Deceased†{% else %}Alive{% endif %}</li>
+  {% if killer %}
+  <li><strong>Killer</strong>: <a href="{{ url_for('ghoul', id=killer.ghoul_id) }}">{{ killer.ghoul_name }}</a> (Rating: {{ killer.rating }})</li>
+  {% endif %}
+</ul>
+
+{% if quinques %}
+<h2 class="dashboard">Quinques</h2>
+<ul>
+<table>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Rating</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for quinque in quinques %}
+    <tr>
+      <td>{{ quinque.id }}</td>
+      <td>{{ quinque.name }}</td>
+      <td>{{ quinque.rating }}</td>
+      <td><a href="{{ url_for('quinque', id=quinque.id) }}">View</a></td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+</ul>
+{% endif %}
+
+<h2 class="dashboard">Encounters</h2>
+{% if encounters|length == 0 %}
+<p>This investigator has no recorded encounters.</p>
+{% else %}
+<ul>
+<table>
+    <thead>
+        <tr>
+            <th>Role</th>
+            <th>Partner</th>
+            <th>Ghoul</th>
+            <th>Time</th>
+            <th>Outcome</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for enc in encounters %}
+        <tr>
+            {% if investigator.id == enc.Senior_id %}
+                <td>Senior</td>
+                <td><a href="{{ url_for('investigator', id=enc.Junior_id) }}">{{ enc.junior_name }} ({{ enc.junior_rank|pretty_rank }})</a>{{ ' †' if enc.death_junior else '' }}</td>
+            {% else %}
+                <td>Junior</td>
+                <td><a href="{{ url_for('investigator', id=enc.Senior_id) }}">{{ enc.senior_name }} ({{ enc.senior_rank|pretty_rank }})</a>{{ ' †' if enc.death_senior else '' }}</td>
+            {% endif %}
+
+            <td><a href="{{ url_for('ghoul', id=enc.Ghoul_id) }}">{{ enc.ghoul_name }}</a>{{ ' †' if enc.death_ghoul else '' }}</td>
+            <td>{{ enc.time }}</td>
+            <td>
+                {% if not enc.death_senior and not enc.death_junior and not enc.death_ghoul %}
+                    All survived
+                {% else %}
+                    {% if enc.death_senior %}Senior died. <br>{% endif %}
+                    {% if enc.death_junior %}Junior died. <br>{% endif %}
+                    {% if enc.death_ghoul %}Ghoul died.{% endif %}
+                {% endif %}
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+</ul>
+{% endif %}
+
+
+<h2 class="dashboard">Killings</h2>
+{% if killings|length == 0 %}
+<p>This investigator has not killed any ghouls.</p>
+{% else %}
+<ul>
+<table>
+    <thead>
+        <tr>
+            <th>Ghoul</th>
+            <th>Quinque Used</th>
+            <th>Ward</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for killing in killings %}
+        <tr>
+            <td>{{ killing.ghoul_name }}</td>
+            <td>{{ killing.quinque_name }} ({{ killing.quinque_rating }})</td>
+            <td>{{ killing.ward_number }} ({{ killing.ward_name }}, {{ killing.ward_city }})</td>
+            <td>
+              <a href="{{ url_for('ghoul', id=killing.ghoul_id) }}">View Ghoul</a>
+              <a href="{{ url_for('quinque', id=killing.quinque_id) }}">View Quinque</a>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+</ul>
+{% endif %}
+
+{% endblock %}

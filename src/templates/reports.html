@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}Daily Reports{% endblock %}
+{% block body %}
+<h1 class="dashboard">
+  Daily Reports
+  <div style="display: flex; gap: 1rem;">
+    <a style="display: block; width: auto" href="/report/new" class="button">
+      Add Report
+    </a>
+    <a style="display: block; width: auto" href="/report/delete" class="button">
+      Delete Report
+    </a>
+  </div>
+</h1>
+
+
+<table id="reportsTable">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Date</th>
+      <th>Report</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for report in reports %}
+    <tr>
+      <td>{{ report.id }}</td>
+      <td>{{ report.date }}</td>
+      <td>{{ report.text }}</td>
+      <td><a href="{{ url_for('report', id=report.id) }}">View</a></td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

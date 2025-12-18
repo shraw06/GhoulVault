@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Delete Report{% endblock %}
+{% block body %}
+<h1 class="dashboard">
+  Delete Report
+  <a style="display: block; width: auto" href="/report" class="button"> Back </a>
+</h1>
+<form method="POST" action="/report/delete">
+  <div class="field">
+    <label for="report_id">Select Report to Delete</label>
+    <select id="report_id" name="report_id" required>
+      <option value="">Select a report...</option>
+      {% for report in reports %}
+      <option value="{{ report.id }}">
+        Report {{ report.id }} - {{ report.date }} - {{ report.text[:50] }}...
+      </option>
+      {% endfor %}
+    </select>
+  </div>
+  <button type="submit" class="button" style="margin-top: 1rem; background-color: #dc2626;">
+    Delete Report
+  </button>
+  {% if error %}
+  <p class="error">{{ error }}</p>
+  {% endif %}
+</form>
+{% endblock %}
